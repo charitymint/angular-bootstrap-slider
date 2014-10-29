@@ -16,7 +16,9 @@ angular.module('ui.bootstrap-slider', [])
 
 				if (attrs.ngChange) {
 					ngModelCtrl.$viewChangeListeners.push(function() {
-						$scope.$apply(attrs.ngChange);
+						if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+						  $scope.$apply(attrs.ngChange);
+						}
 					});
 				}
 
@@ -60,7 +62,9 @@ angular.module('ui.bootstrap-slider', [])
 				slider.on(updateEvent, function(ev) {
 					ngModelCtrl.$setViewValue(ev.value);
 					$timeout(function() {
-						$scope.$apply();
+						if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+						  $scope.$apply();
+						}
 					});
 				});
 
@@ -78,7 +82,9 @@ angular.module('ui.bootstrap-slider', [])
 							$scope.$eval(attrs[sliderEventAttr]);
 
 							$timeout(function() {
-								$scope.$apply();
+								if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+								  $scope.$apply();
+								}
 							});
 						}
 					});
